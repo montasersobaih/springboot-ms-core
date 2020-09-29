@@ -1,8 +1,8 @@
-package com.core.springboot.service.event;
+package com.mj.core.springboot.service.event;
 
-import com.core.springboot.channel.KafkaChannel;
-import com.core.springboot.model.event.Event;
-import com.core.springboot.utils.MessageBuilderFactory;
+import com.mj.core.springboot.channel.KafkaChannel;
+import com.mj.core.springboot.model.event.Event;
+import com.mj.core.springboot.utils.MessageBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -26,8 +26,8 @@ public class DefaultEventSender implements EventSender, ApplicationContextAware 
     }
 
     @Override
-    public <T extends Event<T>> boolean send(T event) {
-        Message<T> message = MessageBuilderFactory.getMessageBuilder(event).build();
+    public <T> boolean send(Event<T> event) {
+        Message<Event<T>> message = MessageBuilderFactory.getMessageBuilder(event).build();
 
         try {
             return context.getBean(event.getChannelName(), KafkaChannel.class).messageChannel().send(message);
