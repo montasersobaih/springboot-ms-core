@@ -1,6 +1,7 @@
 package com.mj.core.springboot.utils;
 
 import com.mj.core.springboot.model.dto.HateoasDTO;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -14,7 +15,6 @@ import java.util.Set;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * @Project ms-core-framework
@@ -36,7 +36,7 @@ public abstract class HateoasUtils {
             for (Method method : clz1.getDeclaredMethods()) {
                 Optional<String> optionalApiMethod = getApiMethod(method);
                 if (optionalApiMethod.isPresent()) {
-                    UriComponentsBuilder builder = linkTo(method, params).toUriComponentsBuilder();
+                    UriComponentsBuilder builder = WebMvcLinkBuilder.linkTo(method, params).toUriComponentsBuilder();
                     links.add(new HateoasDTO(builder.build().getPath(), optionalApiMethod.get()));
                 }
             }
